@@ -1,94 +1,71 @@
-import React, { useState } from 'react'
-import { StyleSheet, View, FlatList, Text } from 'react-native'
-// import { Text, FAB, List } from 'react-native-paper'
-// import Header from '../component/Header'
-import { useSelector, useDispatch } from 'react-redux'
-// import { addnote, deletenote } from '../reducer/notesApp'
+import React, {useState} from 'react';
+import {StyleSheet, View, TextInput} from 'react-native';
 
-function ViewNotes({ navigation }) {
-    // const [notes, setNotes] = useState([])
-    const notes = useSelector(state => state)
-    const dispatch = useDispatch()
+function AddNotes({navigation}) {
+  const [noteTitle, setNoteTitle] = useState('');
+  const [noteDescription, setNoteDescription] = useState('');
 
-    // const addNote = note => {
-    //     console.log(note)
-    //     dispatch(addnote(note))
-    // }
-
-    // const deleteNote = id =>dispatch(deletenote(id))
-
-
-    return (
-        <>
-            {/* <Header titleText='Simple Note Taking App' /> */}
-            <View style={styles.container}>
-                {notes.length === 0 ? (
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>You do not have any Notes</Text>
-                    </View>
-                ) : (
-                        <FlatList
-                            data={notes}
-                            renderItem={({ item }) => (
-                                // return(
-                                <Text>
-                                    {item.note.noteTitle}
-                                </Text>
-
-                                // <List.Item
-                                //     title={item.note.noteTitle}
-                                //     description={item.note.noteDescription}
-                                //     descriptionNumberOfLines={1}
-                                //     titleStyle={styles.listTitle}
-                                //     onPress={() => deleteNote(item.id)}
-                                // />
-                            )}
-                            keyExtractor={item => item.id.toString()}
-                        />
-                    )}
-
-                {/* <FAB
-                    style={styles.fab}
-                    small
-                    icon='plus'
-                    label='Add a new Note'
-                    onPress={() => navigation.navigate('AddNotes', {
-                        addNote
-                    }) */}
-                    }
-                />
-            </View>
-        </>
-    )
+  return (
+    <>
+      <View style={styles.container}>
+        <TextInput
+          label="Add Note Title here"
+          value={noteTitle}
+          mode="outlined"
+          onChangeText={setNoteTitle}
+          style={styles.title}
+        />
+        <TextInput
+          label="Add Note Description"
+          value={noteDescription}
+          onChangeText={setNoteDescription}
+          mode="flat"
+          multiline={true}
+          style={styles.text}
+          scrollEnabled={true}
+          returnKeyLabel="done"
+          blurOnSubmit={true}
+        />
+      </View>
+    </>
+  );
 }
 
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        paddingVertical: 20,
-        paddingHorizontal: 10
-    },
-    titleContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 1
-    },
-    title: {
-        fontSize: 20
-    },
-    fab: {
-        backgroundColor: '#219653',
-        position: 'absolute',
-        margin: 20,
-        right: 0,
-        bottom: 10
-    },
-    listTitle: {
-        fontSize: 20
-    }
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    backgroundColor: 'red',
+  },
+  iconButton: {
+    backgroundColor: '#219653',
+    position: 'absolute',
+    right: 0,
+    top: 40,
+    margin: 10,
+  },
+  titleContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 16,
+  },
+  text: {
+    height: 300,
+    fontSize: 16,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 20,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#219653',
+  },
+});
 
-})
-
-export default ViewNotes
+export default AddNotes;

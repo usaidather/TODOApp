@@ -10,8 +10,16 @@ function NotesFlow() {
   return (
     <NavigationContainer>
       <Stack.Navigator name="Notes">
-        <Stack.Screen name="NotesList" component={NotesList} />
-        <Stack.Screen name="AddNewNote" component={AddNewNote} />
+        <Stack.Screen
+          name="NotesList"
+          component={NotesList}
+          options={{title: 'Notes'}}
+        />
+        <Stack.Screen
+          name="AddNewNote"
+          component={AddNewNote}
+          options={{title: 'New Note'}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
