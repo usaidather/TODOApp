@@ -1,71 +1,94 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, TextInput} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, TextInput, SafeAreaView, Button } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNote } from '../store/notes/action'
 
-function AddNotes({navigation}) {
-  const [noteTitle, setNoteTitle] = useState('');
-  const [noteDescription, setNoteDescription] = useState('');
+function AddNotes({ navigation }) {
+    const [noteTitle, setNoteTitle] = useState('');
+    const [noteDescription, setNoteDescription] = useState('');
+    const dispatchAction = useDispatch();
 
-  return (
-    <>
-      <View style={styles.container}>
-        <TextInput
-          label="Add Note Title here"
-          value={noteTitle}
-          mode="outlined"
-          onChangeText={setNoteTitle}
-          style={styles.title}
-        />
-        <TextInput
-          label="Add Note Description"
-          value={noteDescription}
-          onChangeText={setNoteDescription}
-          mode="flat"
-          multiline={true}
-          style={styles.text}
-          scrollEnabled={true}
-          returnKeyLabel="done"
-          blurOnSubmit={true}
-        />
-      </View>
-    </>
-  );
+    const addNoteToReducer = () => {
+        if (noteTitle.length > 0 && noteDescription.length > 0) {
+            const note = {
+                id: Math.floor(Math.random() * 1000000),
+                title: noteTitle,
+                description: noteDescription
+            }
+
+            dispatchAction(addNote(note))
+
+            navigation.goBack()
+        }
+        else {
+            alert('Please add title and description first!')
+        }
+    }
+
+    return (
+
+        <View style={styles.container}>
+            <SafeAreaView>
+
+                <TextInput
+                    placeholder="Add Note Title here"
+                    style={styles.title}
+                    onChangeText={(title) => setNoteTitle(title)}
+                    value={noteTitle}
+                />
+
+                <TextInput
+                    placeholder="Add Note Description"
+                    style={styles.text}
+                    value={noteDescription}
+                    onChangeText={(noteDescription) => setNoteDescription(noteDescription)}
+                    multiline={true}
+                    underlineColorAndroid='transparent'
+                />
+
+                <Button title={'Add a Note'} style={styles.addNoteButton} onPress={() => { addNoteToReducer() }} />
+            </SafeAreaView>
+        </View>
+
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-    backgroundColor: 'red',
-  },
-  iconButton: {
-    backgroundColor: '#219653',
-    position: 'absolute',
-    right: 0,
-    top: 40,
-    margin: 10,
-  },
-  titleContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 16,
-  },
-  text: {
-    height: 300,
-    fontSize: 16,
-  },
-  fab: {
-    position: 'absolute',
-    margin: 20,
-    right: 0,
-    bottom: 0,
-    backgroundColor: '#219653',
-  },
+    container: {
+        flex: 1,
+        paddingVertical: 20,
+        marginHorizontal: 15
+    },
+    iconButton: {
+        backgroundColor: '#219653',
+        position: 'absolute',
+        right: 0,
+        top: 40,
+        margin: 10,
+    },
+
+    title: {
+        fontSize: 14,
+        marginBottom: 16,
+        height: 40,
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1,
+    },
+    text: {
+        fontSize: 16,
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1,
+        marginVertical: 10
+
+    },
+
+    fab: {
+        position: 'absolute',
+        margin: 20,
+        right: 0,
+        bottom: 0,
+        backgroundColor: '#219653',
+    },
 });
 
 export default AddNotes;

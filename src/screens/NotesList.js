@@ -1,13 +1,14 @@
-import React, {useState, useLayoutEffect} from 'react';
-import {StyleSheet, View, FlatList, Text, Button} from 'react-native';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
+import { StyleSheet, View, FlatList, Text, Button } from 'react-native';
 // import { Text, FAB, List } from 'react-native-paper'
 // import Header from '../component/Header'
-import {useSelector, useDispatch} from 'react-redux';
-// import { addnote, deletenote } from '../reducer/notesApp'
+import { useSelector } from 'react-redux';
 
-function NotesList({navigation}) {
-  const notes = useSelector(state => state);
-  const dispatch = useDispatch();
+function NotesList({ navigation }) {
+  const notes = useSelector(state => state.noteReducer.notes);
+  useEffect(() => {
+    console.log(notes)
+  }, [notes])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -25,17 +26,17 @@ function NotesList({navigation}) {
   return (
     <>
       <View style={styles.container}>
-        {notes.length === 0 ? (
+        {!notes?.length > 0 ? (
           <View style={styles.titleContainer}>
             <Text style={styles.title}>You do not have any Notes</Text>
           </View>
         ) : (
-          <FlatList
-            data={notes}
-            renderItem={({item}) => <Text>{item.note.noteTitle}</Text>}
-            keyExtractor={item => item.id.toString()}
-          />
-        )}
+            <FlatList
+              data={notes}
+              renderItem={({ item }) => <Text>{item.noteTitle}</Text>}
+              keyExtractor={item => item.id.toString()}
+            />
+          )}
       </View>
     </>
   );

@@ -1,7 +1,6 @@
-import {Alert} from 'react-native';
-import {ADD_NOTE, EDIT_NOTE, DELETE_NOTE} from './Type';
+import { ADD_NOTE, EDIT_NOTE, DELETE_NOTE } from './type';
 
-export const addNote = note => {
+export const addNote = (note) => {
   return {
     type: ADD_NOTE,
     payload: note,

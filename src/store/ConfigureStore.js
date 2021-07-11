@@ -7,7 +7,7 @@ import {persistStore, persistReducer} from 'redux-persist';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 
 //import Reducers Here
-import noteReducer from './notes/Reducer';
+import noteReducer from './notes/reducer';
 
 const reducer = combineReducers({
   noteReducer,
