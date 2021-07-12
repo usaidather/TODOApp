@@ -1,20 +1,28 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import {deleteNote} from '../store/notes/action';
-import {useDispatch} from 'react-redux';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
+//importing dispatch action
+import { deleteNote } from '../store/notes/action';
+import { useDispatch } from 'react-redux';
+
+// Note Items
 export default function Note(props) {
   const item = props.item;
   const navigation = props.navigation;
+
+  // to dispatch an action
   const dispatchAction = useDispatch();
 
+  // to delete note on delete icon press
   const deleteNoteOnTapped = () => {
+    // dispatching action to delete through redux
     dispatchAction(deleteNote(item.id));
   };
 
+  // to edit note on icon press
   const editNoteOnTapped = () => {
-    console.log('ITEM:', item);
-    navigation.navigate('AddNewNote', {item: item});
+    // navigating to next screen where we can edit a note, passing current note to next screen to edit
+    navigation.navigate('AddNewNote', { item: item });
   };
 
   return (
@@ -53,7 +61,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     flexDirection: 'row',
   },
-  noteTextContainer: {flex: 1},
+  noteTextContainer: { flex: 1 },
   title: {
     fontWeight: 'bold',
   },

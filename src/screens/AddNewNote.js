@@ -1,21 +1,29 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, TextInput, SafeAreaView, Button} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {addNote, editNote} from '../store/notes/action';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, TextInput, SafeAreaView, Button } from 'react-native';
+// to dispatch redux actions
+import { useDispatch } from 'react-redux';
+// redux actions
+import { addNote, editNote } from '../store/notes/action';
 
 function AddNotes(props) {
+  // initializing useState hooks
   const [noteTitle, setNoteTitle] = useState('');
   const [noteDescription, setNoteDescription] = useState('');
+
   const dispatchAction = useDispatch();
+
   const item = props?.route?.params?.item;
 
+  // Use Effect hooks 
   useEffect(() => {
     if (item) {
+      // checking if its from edit, then show current selected note other its a new note so initialize it with empty
       setNoteTitle(item.title ? item.title : '');
       setNoteDescription(item.description ? item.description : '');
     }
   }, []);
 
+  // creating edit note action  then navigating back to previous screen
   const editNoteToReducer = () => {
     const params = {
       id: item.id,
@@ -27,6 +35,7 @@ function AddNotes(props) {
     props.navigation.goBack();
   };
 
+  // Adding a new note with new random note id with reducer
   const addNoteToReducer = () => {
     if (noteTitle.length > 0 && noteDescription.length > 0) {
       const note = {
@@ -66,7 +75,7 @@ function AddNotes(props) {
           title={item ? 'Update Note' : 'Add a Note'}
           style={styles.addNoteButton}
           onPress={() => {
-           item ? editNoteToReducer() : addNoteToReducer();
+            item ? editNoteToReducer() : addNoteToReducer();
           }}
         />
       </SafeAreaView>
@@ -79,13 +88,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 20,
     marginHorizontal: 15,
-  },
-  iconButton: {
-    backgroundColor: '#219653',
-    position: 'absolute',
-    right: 0,
-    top: 40,
-    margin: 10,
   },
 
   title: {
@@ -100,14 +102,6 @@ const styles = StyleSheet.create({
     borderBottomColor: 'gray',
     borderBottomWidth: 1,
     marginVertical: 10,
-  },
-
-  fab: {
-    position: 'absolute',
-    margin: 20,
-    right: 0,
-    bottom: 0,
-    backgroundColor: '#219653',
   },
 });
 

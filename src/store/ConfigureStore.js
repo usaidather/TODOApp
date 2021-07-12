@@ -1,10 +1,13 @@
 import React from 'react';
-import {Provider} from 'react-redux';
-import {createStore, combineReducers} from 'redux';
 
+// Redux imports 
+import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
+
+// Redux Persist
 import AsyncStorage from '@react-native-community/async-storage';
-import {persistStore, persistReducer} from 'redux-persist';
-import {PersistGate} from 'redux-persist/lib/integration/react';
+import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 
 //import Reducers Here
 import noteReducer from './notes/reducer';
@@ -13,6 +16,7 @@ const reducer = combineReducers({
   noteReducer,
 });
 
+// react persist configuration to store data locally...
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
@@ -25,7 +29,6 @@ export const store = createStore(persistedReducer);
 const persistor = persistStore(store, {}, () => {
   //do anythign if you want to do after restoring the store here
   // hide splash etc
-  // SplashScreen.hide();
 });
 
 export default function ConfigureStore(props) {
