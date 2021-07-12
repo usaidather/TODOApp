@@ -1,14 +1,15 @@
-import React, { useState, useLayoutEffect, useEffect } from 'react';
-import { StyleSheet, View, FlatList, Text, Button } from 'react-native';
+import React, {useState, useLayoutEffect, useEffect} from 'react';
+import {StyleSheet, View, FlatList, Text, Button} from 'react-native';
 // import { Text, FAB, List } from 'react-native-paper'
 // import Header from '../component/Header'
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
+import Note from '../components/Note';
 
-function NotesList({ navigation }) {
-  const notes = useSelector(state => state.noteReducer.notes);
+function NotesList({navigation}) {
+  let notes = useSelector(state => state.noteReducer.notes);
   useEffect(() => {
-    console.log(notes)
-  }, [notes])
+    console.log('ITEMS LIST:', notes);
+  }, [notes]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -24,21 +25,21 @@ function NotesList({ navigation }) {
   }, [navigation]);
 
   return (
-    <>
-      <View style={styles.container}>
-        {!notes?.length > 0 ? (
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>You do not have any Notes</Text>
-          </View>
-        ) : (
-            <FlatList
-              data={notes}
-              renderItem={({ item }) => <Text>{item.noteTitle}</Text>}
-              keyExtractor={item => item.id.toString()}
-            />
+    <View style={styles.container}>
+      {!notes?.length > 0 ? (
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>You do not have any Notes</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={notes}
+          renderItem={({item}) => (
+            <Note item={item} navigation={navigation}></Note>
           )}
-      </View>
-    </>
+          keyExtractor={item => item?.id?.toString()}
+        />
+      )}
+    </View>
   );
 }
 
